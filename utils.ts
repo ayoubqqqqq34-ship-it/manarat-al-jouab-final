@@ -1,6 +1,3 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
-
-export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
-}
+<div className={cn("text-gray-500", isNext && "text-green-400 animate-pulse")}>
+  {prayerName}
+</div>
