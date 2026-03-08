@@ -10,7 +10,7 @@ import {
   useLocation, 
   useNavigate 
 } from 'react-router-dom';
-import { AnimatePresence, motion } from 'motion/react';
+import { AnimatePresence, motion } from 'framer-motion'; // التصحيح 1: تغيير motion/react إلى framer-motion
 import { 
   Home as HomeIcon, 
   BookOpen, 
@@ -21,7 +21,7 @@ import {
 } from 'lucide-react';
 
 
-// Components
+// Components - المسارات المباشرة كما في GitHub
 import HomeView from './HomeView';
 import { QuranView, SurahDetail } from './QuranView';
 import AthkarView from './AthkarView';
@@ -42,7 +42,7 @@ import PermissionModal from './PermissionModal';
 import SadaqaJariyaModal from './SadaqaJariyaModal';
 
 // Utils
-import { cn } from './utils';
+import { cn } from './utils'; // التصحيح 2: التأكد من المسار المباشر
 
 
 const SupplicationsWebView = () => {
@@ -157,62 +157,19 @@ const App = () => {
       <div className="max-w-md mx-auto px-6 pt-8 pb-32 min-h-screen relative">
         
         <AnimatePresence mode="wait">
-          <Routes location={location}>
+          <Routes location={location} key={location.pathname}>
             <Route path="/" element={<HomeView isAdmin={isAdmin} setIsAdmin={setIsAdmin} onMenuClick={() => setIsMenuOpen(true)} />} />
             <Route path="/quran" element={<QuranView onPlay={(url, title) => setAudioState({ url, title })} />} />
             <Route path="/quran/:id" element={<SurahDetail />} />
             <Route path="/athkar" element={<AthkarView />} />
             <Route path="/qibla" element={<QiblaView />} />
             <Route path="/sebha" element={<SebhaView />} />
-            <Route path="/souq" element={<SouqAlKhairView />} />
-            <Route path="/mosques" element={<MosqueLocatorView />} />
+            <Route path="/souq-al-khair" element={<SouqAlKhairView />} /> {/* التصحيح 3: مطابقة اسم المسار والملف */}
+            <Route path="/mosque-locator" element={<MosqueLocatorView />} />
             <Route path="/zakat" element={<ZakatCalculatorView />} />
             <Route path="/library" element={<LibraryView />} />
             <Route path="/city-info" element={<CityInfoView />} />
             <Route path="/profile" element={<ProfileView />} />
             <Route path="/imsakia" element={<ImsakiaView />} />
             <Route path="/supplications" element={<SupplicationsWebView />} />
-            <Route path="/admin" element={<AdminDashboardView />} />
-            <Route path="/admin-dashboard" element={<AdminDashboardView />} />
-            <Route path="/prayer-settings" element={<PrayerSettingsView />} />
-          </Routes>
-        </AnimatePresence>
-
-        <Footer />
-        
-        <NavigationDrawer 
-          isOpen={isMenuOpen} 
-          onClose={() => setIsMenuOpen(false)} 
-          onAdminClick={() => {
-            setIsMenuOpen(false);
-            window.dispatchEvent(new CustomEvent('open-admin-login'));
-          }}
-        />
-
-        {audioState && (
-          <AudioPlayer 
-            url={audioState.url} 
-            title={audioState.title} 
-            onEnd={() => setAudioState(null)} 
-          />
-        )}
-
-        <AdhanPlayer />
-
-        {showPermissions && (
-          <PermissionModal onComplete={() => {
-            localStorage.setItem('permissions_granted', 'true');
-            setShowPermissions(false);
-          }} />
-        )}
-
-        <SadaqaJariyaModal 
-          isOpen={showSadaqa} 
-          onClose={() => setShowSadaqa(false)} 
-        />
-      </div>
-    </div>
-  );
-};
-
-export default App;
+            
