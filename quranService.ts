@@ -1,38 +1,41 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import { Surah, Verse } from '../types';
 
 const BASE_URL = 'https://api.alquran.cloud/v1';
 
+// إضافة Cache بسيط لتسريع التطبيق
+const surahCache = new Map<number, { surah: Surah; verses: Verse[] }>();
+
 export const fetchSurahs = async (): Promise<Surah[]> => {
-  const response = await fetch(`${BASE_URL}/surah`);
-  const data = await response.json();
-  return data.data;
+  try {
+    const response = await fetch(`${BASE_URL}/surah`);
+    const data = await response.json();
+    return data.data;
+  } catch (error) {
+    console.error("Error fetching Surahs:", error);
+    return [];
+  }
 };
 
 export const fetchSurahDetail = async (surahNumber: number): Promise<{ surah: Surah; verses: Verse[] }> => {
+  // إذا كانت السورة محملة من قبل، نرجعوها مباشرة
+  if (surahCache.has(surahNumber)) {
+    return surahCache.get(surahNumber)!;
+  }
+
   const response = await fetch(`${BASE_URL}/surah/${surahNumber}/ar.alafasy`);
   const data = await response.json();
-  return {
+  
+  const result = {
     surah: data.data,
     verses: data.data.ayahs,
   };
+  
+  // حفظ في الـ Cache
+  surahCache.set(surahNumber, result);
+  return result;
 };
 
-export const fetchHizb = async (hizbNumber: number): Promise<Verse[]> => {
-  const response = await fetch(`${BASE_URL}/hizb/${hizbNumber}/ar.alafasy`);
-  const data = await response.json();
-  return data.data.ayahs;
-};
-
-export const getSurahAudioUrl = (surahNumber: number) => {
-  // Using Alafasy as default
+// رابط صوتي مباشر بجودة عالية (128kbps)
+export const getAudioUrl = (surahNumber: number) => {
   return `https://cdn.islamic.network/quran/audio-surah/128/ar.alafasy/${surahNumber}.mp3`;
-};
-
-export const getVerseAudioUrl = (verseNumber: number) => {
-  return `https://cdn.islamic.network/quran/audio/128/ar.alafasy/${verseNumber}.mp3`;
 };
