@@ -14,7 +14,7 @@ const ATHKAR = [
   { id: 5, text: "أستغفر الله", target: 100 },
 ];
 
-export const AthkarView = () => {
+const AthkarView = () => {
   const [counters, setCounters] = useState<Record<number, number>>(() => {
     const saved = localStorage.getItem('athkar_counts');
     return saved ? JSON.parse(saved) : {};
@@ -38,8 +38,10 @@ export const AthkarView = () => {
       {ATHKAR.map(dhikr => (
         <div key={dhikr.id} className="glass p-6 rounded-3xl border-white/5 relative overflow-hidden group">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-bold font-amiri text-gold">{dhikr.text}</h3>
-            <button onClick={() => reset(dhikr.id)} className="p-2 text-white/30 hover:text-gold"><RotateCcw size={18} /></button>
+            <h3 className="text-xl font-bold text-gold">{dhikr.text}</h3>
+            <button onClick={() => reset(dhikr.id)} className="p-2 text-white/30 hover:text-gold">
+              <RotateCcw size={18} />
+            </button>
           </div>
           <div 
             onClick={() => increment(dhikr.id)}
@@ -49,7 +51,7 @@ export const AthkarView = () => {
           </div>
           <div className="mt-4 h-1.5 bg-white/10 rounded-full overflow-hidden">
             <div 
-              className="h-full gold-gradient transition-all duration-500" 
+              className="h-full bg-gold transition-all duration-500" 
               style={{ width: `${Math.min(((counters[dhikr.id] || 0) / dhikr.target) * 100, 100)}%` }}
             />
           </div>
@@ -59,3 +61,6 @@ export const AthkarView = () => {
     </div>
   );
 };
+
+export default AthkarView; // إضافة التصدير لضمان عمل ملف App.tsx
+
