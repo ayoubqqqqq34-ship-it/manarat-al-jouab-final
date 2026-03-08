@@ -41,7 +41,8 @@ import { PermissionModal } from './PermissionModal';
 import { SadaqaJariyaModal } from './SadaqaJariyaModal';
 
 
-import { cn } from './utils';
+
+// import { cn } from './utils';
 
 const SupplicationsWebView = () => {
   const navigate = useNavigate();
