@@ -4,8 +4,8 @@
  */
 
 import React, { useMemo } from 'react';
-import { Heart, Share2, X } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
+import { Heart, Share2, X, Sparkles } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion'; // تأكد من التوافق مع مكتبة التحريك لديك
 
 const RAMADAN_QUOTES = [
   "الصوم جنة، فإذا كان يوم صوم أحدكم فلا يرفث ولا يصخب.",
@@ -40,7 +40,13 @@ const RAMADAN_QUOTES = [
   "عيدنا بتمام الصيام وقبول القيام."
 ];
 
-export const SadaqaJariyaModal = ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) => {
+interface SadaqaJariyaModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const SadaqaJariyaModal: React.FC<SadaqaJariyaModalProps> = ({ isOpen, onClose }) => {
+  // حساب اليوم الهجري بناءً على تاريخ بداية رمضان المتوقع في 2026
   const hijriDay = useMemo(() => {
     const start = new Date('2026-02-18');
     const today = new Date();
@@ -52,68 +58,95 @@ export const SadaqaJariyaModal = ({ isOpen, onClose }: { isOpen: boolean; onClos
   const quote = RAMADAN_QUOTES[hijriDay - 1] || RAMADAN_QUOTES[0];
 
   const handleShare = async () => {
-    const shareData = {
-      title: 'صدقة جارية - منارة مدينة جواب',
-      text: `بطاقة اليوم ${hijriDay} رمضان: ${quote}`,
-      url: window.location.href
-    };
-
+    const textToShare = `🌙 بطاقة اليوم ${hijriDay} رمضان من تطبيق منارة جواب:\n\n"${quote}"\n\nتقبل الله منا ومنكم الصالحات.`;
+    
     if (navigator.share) {
       try {
-        await navigator.share(shareData);
+        await navigator.share({
+          title: 'صدقة جارية - منارة مدينة جواب',
+          text: textToShare,
+          url: window.location.href
+        });
       } catch (err) {
-        console.log('Error sharing:', err);
+        console.log('Sharing failed', err);
       }
     } else {
-      alert('تم نسخ النص للمشاركة: ' + quote);
+      // نسخ للنص في حال عدم دعم المتصفح للمشاركة المباشرة
+      navigator.clipboard.writeText(textToShare);
+      alert('تم نسخ نص البطاقة، يمكنك مشاركته الآن!');
     }
   };
 
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-[110] flex items-center justify-center p-6">
+        <div className="fixed inset-0 z-[200] flex items-center justify-center p-6 overflow-hidden">
+          {/* طبقة التعتيم الخلفية */}
           <motion.div 
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+            className="absolute inset-0 bg-royal-blue/90 backdrop-blur-xl"
           />
+
+          {/* محتوى النافذة المنبثقة */}
           <motion.div 
-            initial={{ scale: 0.9, opacity: 0, y: 20 }}
+            initial={{ scale: 0.8, opacity: 0, y: 50 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
-            exit={{ scale: 0.9, opacity: 0, y: 20 }}
-            className="relative w-full max-w-md bg-gradient-to-br from-gold via-yellow-400 to-gold p-8 rounded-[40px] shadow-[0_0_50px_rgba(251,191,36,0.4)] text-royal-blue text-center space-y-6"
+            exit={{ scale: 0.8, opacity: 0, y: 50 }}
+            className="relative w-full max-w-sm bg-gradient-to-br from-gold via-[#FDE68A] to-gold p-8 rounded-[48px] shadow-[0_25px_60px_rgba(212,168,67,0.4)] text-royal-blue text-center space-y-6 overflow-hidden border-4 border-white/20"
           >
-            <div className="w-20 h-20 bg-royal-blue/10 rounded-full flex items-center justify-center mx-auto">
-              <Heart size={40} className="text-royal-blue" fill="currentColor" />
+            {/* زخرفة خلفية خفيفة */}
+            <div className="absolute -top-10 -right-10 w-32 h-32 bg-white/10 rounded-full blur-3xl pointer-events-none" />
+            
+            <div className="w-24 h-24 bg-royal-blue/10 rounded-full flex items-center justify-center mx-auto shadow-inner relative">
+              <Sparkles size={24} className="absolute -top-2 -right-2 text-royal-blue animate-pulse" />
+              <Heart size={48} className="text-royal-blue" fill="currentColor" />
             </div>
+
             <div className="space-y-2">
-              <h3 className="text-2xl font-bold font-arabic">صدقة جارية</h3>
-              <p className="text-xs font-bold uppercase tracking-widest opacity-60">بطاقة اليوم {hijriDay} رمضان</p>
+              <h3 className="text-3xl font-bold font-amiri tracking-tight">صدقة جارية</h3>
+              <div className="bg-royal-blue/5 px-4 py-1 rounded-full inline-block border border-royal-blue/10">
+                <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-royal-blue/60">
+                  بطاقة اليوم {hijriDay} رمضان ١٤٤٧ هـ
+                </p>
+              </div>
             </div>
-            <div className="bg-white/20 backdrop-blur-sm p-6 rounded-3xl border border-white/30">
-              <p className="text-xl font-amiri leading-loose font-bold italic">"{quote}"</p>
+
+            <div className="bg-white/30 backdrop-blur-md p-8 rounded-[32px] border border-white/40 shadow-sm relative group">
+               <p className="text-2xl font-amiri leading-[1.8] font-bold italic text-royal-blue drop-shadow-sm">
+                "{quote}"
+              </p>
             </div>
-            <div className="flex gap-3">
+
+            <div className="flex flex-col gap-3 pt-4">
               <button 
                 onClick={handleShare}
-                className="flex-1 bg-royal-blue text-gold font-bold py-4 rounded-2xl flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
+                className="w-full bg-royal-blue text-gold font-bold py-5 rounded-[24px] flex items-center justify-center gap-3 shadow-xl active:scale-95 transition-all text-lg group"
               >
-                <Share2 size={20} />
-                مشاركة كصورة
+                <Share2 size={22} className="group-hover:rotate-12 transition-transform" />
+                انشر الخير الآن
               </button>
+              
               <button 
                 onClick={onClose}
-                className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center text-royal-blue hover:bg-white/30 transition-colors"
+                className="text-royal-blue/40 font-bold text-sm hover:text-royal-blue transition-colors py-2"
               >
-                <X size={24} />
+                إغلاق النافذة
               </button>
             </div>
+
+            {/* إطار جمالي سفلي */}
+            <p className="text-[9px] font-bold uppercase tracking-widest opacity-20 pt-2">
+              Manara Jouab - Sadaqa System
+            </p>
           </motion.div>
         </div>
       )}
     </AnimatePresence>
   );
 };
+
+export default SadaqaJariyaModal;
+
