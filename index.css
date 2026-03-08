@@ -2,30 +2,101 @@
 @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@200..1000&display=swap');
 
 @theme {
+  /* الخطوط الأساسية */
   --font-sans: "Cairo", ui-sans-serif, system-ui, sans-serif;
   --font-amiri: "Amiri", serif;
   
+  /* لوحة الألوان الخاصة بمنارة جواب */
   --color-royal-blue: #0a1628;
+  --color-royal-light: #1a2a4a;
   --color-gold: #d4a843;
   --color-gold-light: #f1c40f;
   --color-gold-dark: #b8860b;
+  
+  /* أنيميشن مخصص للظهور */
+  --animate-fade-in: fade-in 0.5s ease-out;
+  --animate-slide-up: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 @layer base {
   body {
-    @apply bg-royal-blue text-white font-sans;
-    direction: rtl;
+    @apply bg-royal-blue text-white font-sans antialiased overflow-x-hidden;
+    direction: rtl; /* اتجاه الكتابة من اليمين لليسار */
+  }
+
+  /* تحسين شكل شريط التمرير ليناسب التصميم الذهبي */
+  ::-webkit-scrollbar {
+    @apply w-1.5;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-royal-blue;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-gold/20 rounded-full hover:bg-gold/40 transition-colors;
   }
 }
 
-.glass {
-  @apply bg-white/10 backdrop-blur-md border border-white/20;
+@layer components {
+  /* تأثير الزجاج (Glassmorphism) */
+  .glass {
+    @apply bg-white/10 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.3)];
+  }
+
+  /* تدرجات لونية احترافية */
+  .gold-gradient {
+    background: linear-gradient(135deg, #d4a843 0%, #f1c40f 50%, #b8860b 100%);
+  }
+
+  .royal-gradient {
+    background: linear-gradient(160deg, #0a1628 0%, #162a4a 100%);
+  }
+
+  /* تأثير البطاقة الذهبية المشعة */
+  .gold-card {
+    @apply bg-gradient-to-br from-gold/20 to-transparent border border-gold/30 rounded-[32px] backdrop-blur-md shadow-2xl shadow-gold/5;
+  }
+
+  /* أزرار جواب الخاصة */
+  .btn-gold {
+    @apply bg-gold text-royal-blue font-bold py-4 px-6 rounded-2xl active:scale-95 transition-all shadow-lg shadow-gold/10 hover:shadow-gold/20;
+  }
 }
 
-.gold-gradient {
-  background: linear-gradient(135deg, #d4a843 0%, #f1c40f 100%);
+/* تحسينات إضافية للنصوص والتحريكات */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
-.royal-gradient {
-  background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
+@keyframes slide-up {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
+
+/* لضمان تناسق الأرقام العربية (الإنجليزية) في الحاسبة والقرآن */
+.font-mono {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* تأثير لمعان خفيف للذهب */
+.shimmer {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%);
+  transform: rotate(45deg);
+  animation: shimmer-effect 3s infinite;
+}
+
+@keyframes shimmer-effect {
+  0% { transform: translateX(-100%) rotate(45deg); }
+  100% { transform: translateX(100%) rotate(45deg); }
+}
+
