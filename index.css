@@ -1,0 +1,31 @@
+@import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400;1,700&family=Cairo:wght@200..1000&display=swap');
+
+@theme {
+  --font-sans: "Cairo", ui-sans-serif, system-ui, sans-serif;
+  --font-amiri: "Amiri", serif;
+  
+  --color-royal-blue: #0a1628;
+  --color-gold: #d4a843;
+  --color-gold-light: #f1c40f;
+  --color-gold-dark: #b8860b;
+}
+
+@layer base {
+  body {
+    @apply bg-royal-blue text-white font-sans;
+    direction: rtl;
+  }
+}
+
+.glass {
+  @apply bg-white/10 backdrop-blur-md border border-white/20;
+}
+
+.gold-gradient {
+  background: linear-gradient(135deg, #d4a843 0%, #f1c40f 100%);
+}
+
+.royal-gradient {
+  background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
+}
