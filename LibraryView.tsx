@@ -4,7 +4,8 @@
  */
 
 import React from 'react';
-import { BookOpen, Library, CheckCircle2, ExternalLink } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { BookOpen, Library, CheckCircle2, ExternalLink, ChevronRight } from 'lucide-react';
 
 const LIBRARY_RESOURCES = [
   {
@@ -30,12 +31,24 @@ const LIBRARY_RESOURCES = [
   }
 ];
 
-export const LibraryView = () => {
+const LibraryView = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="space-y-4">
-      <div className="glass p-6 rounded-3xl border-gold/20 mb-6">
-        <h3 className="text-xl font-bold text-gold mb-2">المكتبة الإسلامية الموثوقة</h3>
-        <p className="text-sm text-white/50">مجموعة مختارة من الكتب والمصادر الإسلامية الموثوقة للقراءة والتحميل.</p>
+    <div className="space-y-6 pb-20">
+      <div className="flex items-center justify-between mb-8">
+        <button onClick={() => navigate(-1)} className="p-3 glass rounded-2xl text-gold">
+          <ChevronRight size={24} />
+        </button>
+        <h2 className="text-2xl font-bold text-gold">المكتبة</h2>
+        <div className="w-12" />
+      </div>
+
+      <div className="glass p-6 rounded-[32px] border-gold/20 mb-6 bg-gold/5">
+        <h3 className="text-xl font-bold text-gold mb-2 font-amiri text-right">المكتبة الإسلامية</h3>
+        <p className="text-sm text-white/50 leading-relaxed text-right">
+          مجموعة مختارة من المصادر الإسلامية الموثوقة للقراءة والتعلم.
+        </p>
       </div>
       
       <div className="grid gap-4">
@@ -51,15 +64,21 @@ export const LibraryView = () => {
               <div className="w-12 h-12 bg-gold/10 rounded-2xl flex items-center justify-center group-hover:bg-gold group-hover:text-royal-blue transition-colors">
                 {resource.icon}
               </div>
-              <div>
+              <div className="text-right">
                 <h4 className="font-bold text-lg">{resource.title}</h4>
-                <p className="text-xs text-white/40">{resource.description}</p>
+                <p className="text-[10px] text-white/40">{resource.description}</p>
               </div>
             </div>
             <ExternalLink size={18} className="text-gold/50" />
           </a>
         ))}
       </div>
+
+      <div className="text-center mt-8 p-4 opacity-30">
+        <p className="text-[10px] font-bold uppercase tracking-widest">المكتبة الرقمية - منارة مدينة جواب</p>
+      </div>
     </div>
   );
 };
+
+export default LibraryView;
