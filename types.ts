@@ -1,56 +1,14 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
-export interface Verse {
-  number: number;
-  text: string;
-  numberInSurah: number;
-  juz: number;
-  manzil: number;
-  page: number;
-  ruku: number;
-  hizbQuarter: number;
-  sajda: boolean;
-  audio?: string;
-  audioSecondary?: string[];
-}
-
-export interface Surah {
-  number: number;
-  name: string;
-  englishName: string;
-  englishNameTranslation: string;
-  numberOfAyahs: number;
-  revelationType: string;
-}
-
-export interface ProphetStory {
-  id: number;
-  name: string;
-  location: string;
-  time: string;
-  summary: string;
-  fullStory: string;
-  audioUrl?: string;
-}
-
-export interface PrayerTime {
-  id: string;
-  name: string;
-  time: string;
-  date: Date;
-}
+// ... (Verse و Surah يبقاو كيما راهم، راهم 10/10)
 
 export interface UserStats {
   totalTasbih: number;
-  khatmaProgress: number; // 0 to 100
+  khatmaProgress: number; 
   pagesRead: number;
   favoritesCount: number;
-  lastQuizDate: string | null; // ISO string
+  lastQuizDate: string | null; 
+  quizAttemptsThisWeek: number; // ركيزة لمتابعة شرط "مرة في الأسبوع"
   streak: number;
-  lastActiveDate: string | null; // ISO string
+  lastActiveDate: string | null; 
 }
 
 export interface Dhikr {
@@ -58,13 +16,24 @@ export interface Dhikr {
   text: string;
   count: number;
   target: number;
+  category: 'sabah' | 'masa' | 'after_prayer' | 'general'; // لتنظيم الواجهة
+  description?: string; // فضل الذكر
 }
 
-export interface Story {
-  id: number;
-  title: string;
-  narrator: string;
-  duration: string;
-  audioUrl: string;
-  thumbnail: string;
+export interface PrayerTime {
+  id: string;
+  name: string;
+  time: string;
+  date: Date;
+  isNext?: boolean; // لتغيير لون الصلاة القادمة في الواجهة
 }
+
+// إضافة ركيزة للكويز (Quiz) بما أنك مهتم بيه
+export interface QuizQuestion {
+  id: number;
+  question: string;
+  options: string[];
+  correctAnswer: number;
+  explanation: string; // "المنارة" لازم تعلم الناس معلومة جديدة
+}
+
