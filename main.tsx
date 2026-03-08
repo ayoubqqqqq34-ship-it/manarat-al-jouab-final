@@ -3,7 +3,7 @@ import {createRoot} from 'react-dom/client';
 import { BrowserRouter as Router } from 'react-router-dom';
 import App from './App.tsx';
 import './index.css';
-import { initPrayerTimes } from './services/prayerService.ts';
+import { initPrayerTimes } from './prayerService.ts';
 
 initPrayerTimes().then(() => {
   createRoot(document.getElementById('root')!).render(
