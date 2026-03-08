@@ -21,23 +21,29 @@ import {
 } from 'lucide-react';
 
 // Components
-import { HomeView } from './Home';
-import { QuranView, SurahDetail } from './Quran';
-import { AthkarView } from './Athkar';
-import { QiblaView } from './Qibla';
-import { SebhaView } from './Sebha';
-import { SouqAlKhairView } from './SouqAlKhair';
-import { MosqueLocatorView } from './MosqueLocator';
-import { ZakatCalculatorView } from './ZakatCalculator';
-import { LibraryView } from './Library';
-import { CityInfoView } from './CityInfo';
-import { ProfileView } from './Profile';
-import { ImsakiaView } from './Imsakia';
-import { AdminDashboardView } from './AdminDashboard';
-import { PrayerSettingsView } from './PrayerSettings';
-import { NavigationDrawer } from './NavigationDrawer';
+import HomeView from './HomeView';
+import { QuranView, SurahDetail } from './QuranView';
+import AthkarView from './AthkarView';
+import QiblaView from './QiblaView';
+import SebhaView from './SebhaView';
+import SouqAlKhairView from './SouqAlKhairView';
+import MosqueLocatorView from './MosqueLocatorView';
+import ZakatCalculatorView from './ZakatCalculatorView';
+import LibraryView from './LibraryView';
+import CityInfoView from './CityInfoView';
+import ProfileView from './ProfileView';
+import ImsakiaView from './ImsakiaView';
+import AdminDashboardView from './AdminDashboardView';
+import PrayerSettingsView from './PrayerSettingsView';
+import NavigationDrawer from './NavigationDrawer';
 import { AudioPlayer, AdhanPlayer } from './AudioPlayers';
-import { PermissionModal } from './PermissionModal';
+import PermissionModal from './PermissionModal';
+import SadaqaJariyaModal from './SadaqaJariyaModal';
+
+// Utils
+import { cn } from './utils';
+
+
 import { SadaqaJariyaModal } from './SadaqaJariyaModal';
 
 
