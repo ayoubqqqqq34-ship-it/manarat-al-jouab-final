@@ -5,8 +5,8 @@
 
 import React, { useState, useMemo } from 'react';
 import { X, Zap, HandHelping, Facebook, Info, Settings } from 'lucide-react';
-import { motion, AnimatePresence } from 'motion/react';
-import { cn } from '../lib/utils';
+import { motion, AnimatePresence } from 'framer-motion'; // تأكد من تثبيت framer-motion أو تغييرها لـ motion/react حسب مكتبتك
+import { cn } from './utils'; // تصحيح المسار المباشر
 
 const DUAS_OF_THE_DAY = [
   "اللهم اهدنا فيمن هديت، وعافنا فيمن عافيت",
@@ -59,7 +59,7 @@ const WallClock = () => {
   );
 };
 
-export const NavigationDrawer = ({ isOpen, onClose, onAdminClick }: { isOpen: boolean; onClose: () => void; onAdminClick: () => void }) => {
+const NavigationDrawer = ({ isOpen, onClose, onAdminClick }: { isOpen: boolean; onClose: () => void; onAdminClick: () => void }) => {
   const [activeTab, setActiveTab] = useState<'duas' | 'activities'>('duas');
 
   const currentDua = useMemo(() => {
@@ -67,7 +67,7 @@ export const NavigationDrawer = ({ isOpen, onClose, onAdminClick }: { isOpen: bo
     const start = new Date('2026-03-01');
     const diffTime = today.getTime() - start.getTime();
     const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-    return DUAS_OF_THE_DAY[diffDays % 30];
+    return DUAS_OF_THE_DAY[Math.max(0, diffDays) % 30];
   }, []);
 
   return (
@@ -86,18 +86,10 @@ export const NavigationDrawer = ({ isOpen, onClose, onAdminClick }: { isOpen: bo
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={{ left: 0, right: 0.5 }}
-            onDragEnd={(_, info) => {
-              if (info.offset.x > 100) {
-                onClose();
-              }
-            }}
             className="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-[#064e3b] z-[101] shadow-2xl flex flex-col"
           >
             <div className="p-6 flex items-center justify-between border-b border-white/10">
-              <h2 className="text-2xl font-bold text-gold font-arabic">القائمة الرئيسية</h2>
+              <h2 className="text-2xl font-bold text-gold font-amiri">القائمة الرئيسية</h2>
               <button 
                 onClick={onClose}
                 className="w-10 h-10 rounded-full bg-gold/10 flex items-center justify-center text-gold hover:bg-gold/20 transition-colors"
@@ -116,8 +108,8 @@ export const NavigationDrawer = ({ isOpen, onClose, onAdminClick }: { isOpen: bo
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id as any)}
                     className={cn(
-                      "flex-1 py-3 text-sm rounded-lg transition-all",
-                      activeTab === tab.id ? "bg-gold text-royal-blue font-bold" : "text-white/60"
+                      "flex-1 py-3 text-sm rounded-lg transition-all font-bold",
+                      activeTab === tab.id ? "bg-gold text-royal-blue" : "text-white/60"
                     )}
                   >
                     {tab.label}
@@ -128,13 +120,12 @@ export const NavigationDrawer = ({ isOpen, onClose, onAdminClick }: { isOpen: bo
               <div className="space-y-4">
                 {activeTab === 'duas' && (
                   <div className="bg-gold/10 border border-gold/30 rounded-3xl p-8 text-center space-y-6 relative overflow-hidden group">
-                    <div className="absolute top-0 left-0 w-24 h-24 bg-gold/5 rounded-full -ml-12 -mt-12 blur-2xl" />
                     <div className="w-20 h-20 bg-gold rounded-full flex items-center justify-center mx-auto text-royal-blue shadow-[0_0_30px_rgba(212,168,67,0.4)]">
                       <Zap size={40} fill="currentColor" className="animate-pulse" />
                     </div>
                     <div className="space-y-2">
                       <h4 className="text-xl font-bold text-gold">دعاء اليوم لك</h4>
-                      <p className="text-sm text-white/50">تغير تلقائي كل ٢٤ ساعة</p>
+                      <p className="text-xs text-white/40">يحدث تلقائياً كل يوم</p>
                     </div>
                     <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
                       <p className="text-xl font-amiri leading-loose text-white italic">"{currentDua}"</p>
@@ -150,15 +141,15 @@ export const NavigationDrawer = ({ isOpen, onClose, onAdminClick }: { isOpen: bo
                     <div className="space-y-4">
                       <h4 className="text-xl font-bold text-emerald-400">أنشطة البطحة الجوابية</h4>
                       <div className="bg-white/5 p-6 rounded-2xl border border-white/10">
-                        <p className="text-lg font-arabic leading-relaxed text-white">
-                          البطحة تقوم بجمع ملابس العيد لأيتام مدينة جواب.. كن عوناً لهم. التفاصيل في صفحة البطحة الجوابية.
+                        <p className="text-lg font-amiri leading-relaxed text-white">
+                          البطحة تقوم بجمع ملابس العيد لأيتام مدينة جواب.. كن عوناً لهم.
                         </p>
                       </div>
                       <button 
                         onClick={() => window.open('https://www.facebook.com/profile.php?id=100063619934440', '_blank')}
-                        className="w-full bg-emerald-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
+                        className="w-full bg-[#1877F2] text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-all"
                       >
-                        <Facebook size={20} />
+                        <Facebook size={20} fill="currentColor" />
                         صفحة البطحة الجوابية
                       </button>
                     </div>
@@ -172,7 +163,7 @@ export const NavigationDrawer = ({ isOpen, onClose, onAdminClick }: { isOpen: bo
             <div className="p-6 border-t border-white/10 flex items-center justify-between">
               <div className="flex items-center gap-2 text-white/40 text-[10px] font-bold uppercase tracking-widest">
                 <Info size={14} />
-                <span>إصدار 2.5.0 - جواب</span>
+                <span>منارة جواب v2.5.0</span>
               </div>
               <button 
                 onClick={onAdminClick}
@@ -187,3 +178,6 @@ export const NavigationDrawer = ({ isOpen, onClose, onAdminClick }: { isOpen: bo
     </AnimatePresence>
   );
 };
+
+export default NavigationDrawer;
+
