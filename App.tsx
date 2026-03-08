@@ -20,6 +20,7 @@ import {
   ExternalLink
 } from 'lucide-react';
 
+
 // Components
 import HomeView from './HomeView';
 import { QuranView, SurahDetail } from './QuranView';
@@ -43,11 +44,6 @@ import SadaqaJariyaModal from './SadaqaJariyaModal';
 // Utils
 import { cn } from './utils';
 
-
-import { SadaqaJariyaModal } from './SadaqaJariyaModal';
-
-
-import { cn } from './utils';
 
 const SupplicationsWebView = () => {
   const navigate = useNavigate();
