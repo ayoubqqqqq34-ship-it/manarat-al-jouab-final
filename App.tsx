@@ -21,27 +21,27 @@ import {
 } from 'lucide-react';
 
 // Components
-import { HomeView } from './components/HomeView';
-import { QuranView, SurahDetail } from './components/QuranView';
-import { AthkarView } from './components/AthkarView';
-import { QiblaView } from './components/QiblaView';
-import { SebhaView } from './components/SebhaView';
-import { SouqAlKhairView } from './components/SouqAlKhairView';
-import { MosqueLocatorView } from './components/MosqueLocatorView';
-import { ZakatCalculatorView } from './components/ZakatCalculatorView';
-import { LibraryView } from './components/LibraryView';
-import { CityInfoView } from './components/CityInfoView';
-import { ProfileView } from './components/ProfileView';
-import { ImsakiaView } from './components/ImsakiaView';
-import { AdminDashboardView } from './components/AdminDashboard';
-import { PrayerSettingsView } from './components/PrayerSettingsView';
-import { NavigationDrawer } from './components/NavigationDrawer';
-import { AudioPlayer, AdhanPlayer } from './components/AudioPlayers';
-import { PermissionModal } from './components/PermissionModal';
-import { SadaqaJariyaModal } from './components/SadaqaJariyaModal';
+import { HomeView } from './Home';
+import { QuranView, SurahDetail } from './Quran';
+import { AthkarView } from './Athkar';
+import { QiblaView } from './Qibla';
+import { SebhaView } from './Sebha';
+import { SouqAlKhairView } from './SouqAlKhair';
+import { MosqueLocatorView } from './MosqueLocator';
+import { ZakatCalculatorView } from './ZakatCalculator';
+import { LibraryView } from './Library';
+import { CityInfoView } from './CityInfo';
+import { ProfileView } from './Profile';
+import { ImsakiaView } from './Imsakia';
+import { AdminDashboardView } from './AdminDashboard';
+import { PrayerSettingsView } from './PrayerSettings';
+import { NavigationDrawer } from './NavigationDrawer';
+import { AudioPlayer, AdhanPlayer } from './AudioPlayers';
+import { PermissionModal } from './PermissionModal';
+import { SadaqaJariyaModal } from './SadaqaJariyaModal';
 
-// Utils
-import { cn } from './lib/utils';
+
+import { cn } from './utils';
 
 const SupplicationsWebView = () => {
   const navigate = useNavigate();
